@@ -21,7 +21,7 @@ our %QUERIES = (
 
 =head1 NAME
 
-Infoseg::Cadastro - A representaÁ„o da operaÁ„o de cadastro no Infoseg.
+Infoseg::Cadastro - A representa√ß√£o da opera√ß√£o de cadastro no Infoseg.
 
 =head1 SYNOPSIS
 
@@ -29,8 +29,8 @@ Infoseg::Cadastro - A representaÁ„o da operaÁ„o de cadastro no Infoseg.
 
     my $cadastro = new Infoseg::Cadastro(
       MotivoUsuario =>            "Cadastro",
-      perfilUsuario =>            "Usu·rio",
-      orgaoVinculado =>           "”rg„o X",
+      perfilUsuario =>            "Usu√°rio",
+      orgaoVinculado =>           "√ìrg√£o X",
       unidadeLotacao =>           "Unidade XY",
       nome =>                     "fulano de tal",
       cpf =>                      "61482583828",
@@ -123,7 +123,7 @@ sub _request_post{
   #Now the special cases.
   my $perfil_encoded;
   given ( $data->{$_} ) {
-    when (/Usu·rio/) {
+    when (/Usu√°rio/) {
       $perfil_encoded = 'Usu%E1rio'
     }
     when (/Supervisor de Atendimento Inicial/) {
