@@ -4,6 +4,7 @@ use Mojo::UserAgent;
 use Mojo::Parameters;
 use Carp;
 use v5.14;
+use utf8;
 
 our $BASE = 'https://www2.infoseg.gov.br/infoseg/do/Logon/Solicitacao/Cadastro';
 our $CADASTRO =
