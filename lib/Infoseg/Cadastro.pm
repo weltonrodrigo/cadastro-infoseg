@@ -153,7 +153,7 @@ sub get_captcha_image {
     my $res = $self->_request( $QUERIES{telaInicial} );
     
     # get captcha
-    my $img = $self->_request($QUERIES{captcha});
+    my $img = $self->_request( $QUERIES{captcha} );
     
     return $self->{captcha} = Infoseg::Cadastro::Asset->new($img);
 
