@@ -1,8 +1,8 @@
 package Infoseg::Cadastro;
 
 use Mojo::UserAgent;
+use Mojo::Parameters;
 use Carp;
-use URI;
 use v5.14;
 
 our $BASE = 'https://www2.infoseg.gov.br/infoseg/do/Logon/Solicitacao/Cadastro';
@@ -93,7 +93,7 @@ sub _request {
 
     given ($query->{meth}){
         when (/POST/) {
-            $tx = $self->ua->post_form( $query->{url} => $data );
+            $tx = $self->_request_post( $query->{url}, $data );
         };
         when (/GET/ ) {
             $tx = $self->ua->get( $query->{url} );
@@ -107,6 +107,39 @@ sub _request {
         my ( $err, $code ) = $tx->error;
         croak $code ? "$code response: $err" : "Connection error: $err";
     }
+
+}
+
+# Needed because there is a bug on Infoseg.
+sub _request_post{
+  my ($self, $url, $data) = @_;
+
+  my @ok = grep !/perfilUsuario/, keys %$data;
+
+  my $p = new Mojo::Parameters;
+  $p->append($_, $data->{$_}) foreach @ok;
+
+  #Now the special cases.
+  my $perfil_encoded;
+  given ( $data->{$_} ) {
+    when (/Usuário/) {
+      $perfil_encoded = 'Usu%E1rio'
+    }
+    when (/Supervisor de Atendimento Inicial/) {
+      $perfil_encoded = 'Supervisor+de+Atendimento+Inicial+%D3rg%E3o';
+    }
+  }
+
+  #Append to the other encoded values.
+  my $encoded = $p->to_string . '&perfilUsuario=' . $perfil_encoded;
+
+  #Build transaction.
+  my $tx = $self->ua->tx(POST => $url);
+  $tx->req->headers->content_type('application/x-www-form-urlencoded');
+  $tx->req->body($encoded);
+
+  #Start and return.
+  return $self->ua->start($tx);
 
 }
 
@@ -134,9 +167,14 @@ sub submit {
 
     unless ($solution) {croak "You must provide catpcha solution.";}
 
-    $self->{fields}->{captcha} = $solution;
+    my $params = {
+      %{ $self->{fields} },
+      mudaImagem    => 0,
+      imagemCaptcha => 1,
+      captcha       => $solution,
+    };
 
-    my $res = $self->_request( $QUERIES{inserir} , $self->{fields});
+    my $res = $self->_request( $QUERIES{inserir}, $params);
 
     # TODO CSS selector magic.
     $self->{fields}->{numFormulario} = $res->dom();
