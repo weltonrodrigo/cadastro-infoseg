@@ -71,7 +71,7 @@ sub new {
         fields  => \%fields,
         ua      => new Mojo::UserAgent(),
         captcha => {},
-        form    => {a => 'a', b => 'b'},
+        form    => {},
         report  => {},
     };
 
@@ -121,7 +121,6 @@ sub get_captcha_image {
     my $res = $self->_request( $QUERIES{telaInicial} );
     
     # get captcha
-    $DB::Single;
     my $img = $self->_request($QUERIES{captcha});
     
     return $self->{captcha} = Infoseg::Cadastro::Asset->new($img);
@@ -135,22 +134,22 @@ sub submit {
     my $self     = shift;
     my $solution = {@_}->{captcha_solution};
 
-    unless ($solution) croak "You must provide catpcha solution.";
+    unless ($solution) {croak "You must provide catpcha solution.";}
 
     $self->{fields}->{captcha} = $solution;
 
     my $res = $self->_request( $QUERIES{inserir} , $self->{fields});
 
     # TODO CSS selector magic.
-    $self->fields->{numFormulario} = $res->dom();
+    $self->{fields}->{numFormulario} = $res->dom();
 
     $self->_request( $QUERIES{confirma} );
 
     $res = $self->_request( $QUERIES{cadastro} );
 
-    $self->submit_ok = 1;
+    $self->{submit_ok} = 1;
 
-    $self->report = new Infoseg::Cadastro::Asset($res);
+    $self->{report} = new Infoseg::Cadastro::Asset($res);
 
     return $self;
 }
