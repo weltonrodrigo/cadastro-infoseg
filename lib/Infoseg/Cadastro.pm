@@ -75,8 +75,6 @@ sub new {
         report  => {},
     };
 
-    #TODO Preencher os demais campos do post com os dados do usuário.
-    #emailOrgaoConfirma,  por exemplo.
     $self->{fields}->{emailOrgaoConfirma} = $fields{emailOrgao};
     $self->{fields}->{emailIndividualConfirma} = $fields{emailIndividual};
 
