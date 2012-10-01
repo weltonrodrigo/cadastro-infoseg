@@ -1,0 +1,40 @@
+#!/usr/bin/env perl
+use Mojolicious::Lite;
+use OpenOffice::OODoc;
+
+sub get_file_fields{
+  my $doc= shift;
+  
+  (my $num_rows, my $num_columns) = $doc->getTable(0);
+  
+  my @cols;
+  
+  push @cols, $doc->getCellValue(0, 0, $_) foreach (0..$num_columns-1);
+  
+  return \@cols;
+}
+
+get '/' => sub {
+  my $self = shift;
+  $self->render('index');
+};
+
+post '/' => sub{
+  my $self = shift;
+  
+};
+
+app->start;
+__DATA__
+
+@@ index.html.ep
+% layout 'default';
+% title 'Welcome';
+Welcome to the Mojolicious real-time web framework!
+
+@@ layouts/default.html.ep
+<!DOCTYPE html>
+<html>
+  <head><title><%= title %></title></head>
+  <body><%= content %></body>
+</html>

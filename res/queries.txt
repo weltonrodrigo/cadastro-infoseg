@@ -1,0 +1,42 @@
+https://www2.infoseg.gov.br/infoseg/do/Logon/Solicitacao/Cadastro?method=telaInicial
+
+POST https://www2.infoseg.gov.br/infoseg/do/Logon/Solicitacao/Cadastro?method=confirma
+mudaImagem:0
+imagemCaptcha:1
+motivoUsuario:Cadastro
+perfilUsuario:Usuário
+orgaoVinculado:DPRF
+unidadeLotacao:5DRDPRF
+nome:fulano de tal
+cpf:61482583828
+cargo:PRF
+matricula:122345
+emailOrgao:fulano@dprf.gov.br
+emailOrgaoConfirma:fulano@dprf.gov.br
+emailIndividual:fulano@hotmail.com
+emailIndividualConfirma:fulano@hotmail.com
+telefoneCelular:9581112323
+dataNascimento:12/12/1980
+captcha:36737
+==
+
+POST https://www2.infoseg.gov.br/infoseg/do/Logon/Solicitacao/Cadastro?method=inserir
+method:inserir
+Form Dataview URL encoded
+numFormulario:PBI2.C1NY.3VLX.NR7R
+motivoUsuario:Cadastro
+perfilUsuario:(unable to decode value)
+orgaoVinculado:DPRF
+unidadeLotacao:5DRDPRF
+nome:fulano de tal
+cpf:61482583828
+cargo:PRF
+matricula:122345
+emailOrgao:fulano@dprf.gov.br
+emailIndividual:fulano@hotmail.com
+telefoneCelular:9581112323
+dataNascimento:12/12/1980
+chkform:on
+==
+
+GET https://www2.infoseg.gov.br/infoseg/do/relatorio/solicitacaoCadastro
