@@ -135,6 +135,8 @@ sub submit {
     my $self     = shift;
     my $solution = {@_}->{captcha_solution};
 
+    unless ($solution) croak "You must provide catpcha solution.";
+
     $self->{fields}->{captcha} = $solution;
 
     my $res = $self->_request( $QUERIES{inserir} , $self->{fields});
