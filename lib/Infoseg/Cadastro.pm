@@ -135,7 +135,7 @@ sub _request_post{
   my $encoded = $p->to_string . '&perfilUsuario=' . $perfil_encoded;
 
   #Build transaction.
-  my $tx = $self->ua->tx(POST => $url);
+  my $tx = $self->ua->build_tx(POST => $url);
   $tx->req->headers->content_type('application/x-www-form-urlencoded');
   $tx->req->body($encoded);
 
